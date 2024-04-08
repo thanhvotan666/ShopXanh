@@ -16,7 +16,7 @@ namespace ShopXanh.Controllers
 
         public IActionResult Index()
         {
-            return View(_context.SanPham.ToList());
+            return View(_context.SanPham.Take(8).ToList());
         }
 
         public IActionResult Privacy()

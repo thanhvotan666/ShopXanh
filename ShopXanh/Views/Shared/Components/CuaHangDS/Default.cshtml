@@ -1,0 +1,15 @@
+﻿@*
+    CuaHangDS
+*@
+@model List<ShopXanh.Models.LoaiSanPham>
+
+<div class="row justify-content-center">
+    <div class="col-md-10 mb-5 text-center">
+        <ul class="product-category">
+            <li><a href="#" class="active">All</a></li>
+            @foreach (var item in Model) { 
+            <li><a href="#">@item.Name</a></li>
+            }
+        </ul>
+    </div>
+</div> 
