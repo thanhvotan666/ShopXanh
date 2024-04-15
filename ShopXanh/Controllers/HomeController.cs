@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ShopXanh.Data;
 using ShopXanh.Models;
 using System.Diagnostics;
@@ -16,6 +17,7 @@ namespace ShopXanh.Controllers
 
         public IActionResult Index()
         {
+            //Xuất 8 sản phẩm
             return View(_context.SanPham.Take(8).ToList());
         }
 
@@ -23,14 +25,46 @@ namespace ShopXanh.Controllers
         {
             return View();
         }
-
-        public IActionResult CuaHang()
+        [HttpGet]
+        public  IActionResult CuaHang(int? category,int? page)
         {
+            ViewBag.Loai = 0;
+            if (category != null)
+            {
+                ViewBag.Loai = category;
+            }
+            ViewBag.Page = 1;
+            if (page != null)
+            {
+                ViewBag.Page = page;
+            }            
             return View();
         }
-        public IActionResult YeuThich()
+        public IActionResult YeuThich(int? id)
         {
-            return View();
+            
+			List<int> cookies = new List<int>();
+            foreach (var cookie in Request.Cookies)
+            {
+                if (cookie.Value.Equals("YeuThich"))
+                {
+					if (id.HasValue)
+					{
+						Response.Cookies.Delete($"SanPham{id}");
+                        continue;
+					}
+					try
+                    {
+						cookies.Add(int.Parse(cookie.Key.Substring(7)));
+
+					}
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
+            }
+			return View(_context.SanPham.Where(e=>cookies.Contains(e.Id)).ToList());
         }
         public IActionResult GioiThieu()
         {

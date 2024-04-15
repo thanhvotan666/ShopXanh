@@ -1,7 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Cửa Hàng";
-    ViewData["LoaiId"] = -1;
-    ViewData["Page"] = 1;
+
 }
 @await Component.InvokeAsync("Head", new { param = ViewData["Title"] })
 <section class="ftco-section">
@@ -9,21 +8,36 @@
 
         @await Component.InvokeAsync("CuaHangDS")
 
-        @await Component.InvokeAsync("CuaHangSP", new{LoaiId = ViewData["LoaiId"], Page = ViewData["Page"]})
+        @await Component.InvokeAsync("CuaHangSP", new{LoaiId = ViewBag.Loai, Page = ViewBag.Page})
+
         <div class="row mt-5">
             <div class="col text-center">
                 <div class="block-27">
                     <ul>
-                        <li><a href="#">&lt;</a></li>
-                        <li class="active"><span>1</span></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">&gt;</a></li>
+                        <li><a >&lt;</a></li>
+                        <li id="p1"><a asp-action="CuaHang" asp-route-category="@ViewBag.Loai" asp-route-page="1">1</a></li>
+                        <li id="p2"><a asp-action="CuaHang" asp-route-category="@ViewBag.Loai" asp-route-page="2">2</a></li>
+                        <li id="p3"><a asp-action="CuaHang" asp-route-category="@ViewBag.Loai" asp-route-page="3">3</a></li>
+                        <li id="p4"><a asp-action="CuaHang" asp-route-category="@ViewBag.Loai" asp-route-page="4">4</a></li>
+                        <li id="p5"><a asp-action="CuaHang" asp-route-category="@ViewBag.Loai" asp-route-page="5">5</a></li>
+                        <li><a >&gt;</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<script>
+    window.onload = function () {
+        var loaiId = "LoaiId-" + @ViewBag.Loai;
+        var element = document.getElementById(loaiId);
+        if (element) {
+            element.classList.add("active");
+        }
+        var page = "p" + @ViewBag.Page;
+        var element = document.getElementById(page);
+        if (element) {
+            element.classList.add("active");
+        }
+    };
+</script>

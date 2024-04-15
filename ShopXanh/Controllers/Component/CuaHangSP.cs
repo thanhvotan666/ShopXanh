@@ -14,7 +14,7 @@ namespace ShopXanh.Controllers.Component
         }
         public async Task<IViewComponentResult> InvokeAsync(int LoaiId,int Page)
         {
-            if(LoaiId != -1)
+            if(LoaiId != 0)
             {
                 return View("Default", await _context.SanPham.Where(s=>s.LoaiSanPhamId==LoaiId).Skip((Page-1)*8).Take(8).ToListAsync());
             }

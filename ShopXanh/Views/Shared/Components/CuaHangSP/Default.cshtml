@@ -11,7 +11,7 @@
         <div class="col-md-6 col-lg-3 ftco-animate">
             <div class="product">
                 <a href="#" class="img-prod">
-                    <img class="img-fluid" src="../@item.ImageUrl" alt="Colorlib Template">
+                    <img class="img-fluid" src="~/@item.ImageUrl" alt="Colorlib Template">
                     <span class="status"></span>
                     <div class="overlay"></div>
                 </a>
@@ -24,15 +24,15 @@
                     </div>
                     <div class="bottom-area d-flex px-3">
                         <div class="m-auto d-flex">
-                            <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                            <a id="addtocart" asp-controller="Sanphams" asp-action="Details" asp-route-id="@item.Id" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                                 <span><i class="ion-ios-menu"></i></span>
                             </a>
-                            <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                            <a id="buynow" href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
                                 <span><i class="ion-ios-cart"></i></span>
                             </a>
-                            <a href="#" class="heart d-flex justify-content-center align-items-center ">
+                            <button id="heart" type="button" onclick="cookieYeuThichAdd('@item.Id')" class="heart d-flex justify-content-center align-items-center">
                                 <span><i class="ion-ios-heart"></i></span>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>

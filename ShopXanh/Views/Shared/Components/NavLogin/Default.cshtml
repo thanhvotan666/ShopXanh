@@ -1,0 +1,15 @@
+﻿@*
+    NavLogin
+*@
+@model string
+@{
+    if (Model != "")
+    {
+        <li class="nav-item"><a asp-area="" asp-controller="NguoiDungs" asp-action="ThongTin" class="nav-link text-success">@Model</a></li>
+        <li class="nav-item"><a asp-area="" asp-controller="NguoiDungs" asp-action="Logout" class="nav-link text-danger">Logout</a></li>
+    }
+    else
+    {
+        <li class="nav-item"><a asp-area="" asp-controller="NguoiDungs" asp-action="Login" class="nav-link">Login</a></li>
+    }
+}

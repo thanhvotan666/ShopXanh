@@ -5,7 +5,11 @@
 <!--Start Banner-->
 @await Component.InvokeAsync("Banner");
 <!--End Banner-->
+<div id="notification" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; border-radius: 5px; z-index: 1000;">
+    12345
+</div>
 <!--Start Main-->
+
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center mb-3 pb-3">
@@ -36,15 +40,15 @@
                         </div>
                         <div class="bottom-area d-flex px-3">
                             <div class="m-auto d-flex">
-                                    <a asp-controller="Sanphams" asp-action="Details" asp-route-id="@item.Id" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                    <a id="addtocart" asp-controller="Sanphams" asp-action="Details" asp-route-id="@item.Id" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                                     <span><i class="ion-ios-menu"></i></span>
-                                </a>
-                                <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                    <span><i class="ion-ios-cart"></i></span>
-                                </a>
-                                <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                    <span><i class="ion-ios-heart"></i></span>
-                                </a>
+                                    </a>
+                                    <button onclick="cookieCartAdd('@item.Id')" class="buy-now d-flex justify-content-center align-items-center mx-1" id="buynow">
+                                        <span><i class="ion-ios-cart"></i></span>
+                                    </button>
+                                    <button onclick="cookieYeuThichAdd('@item.Id')" class="heart d-flex justify-content-center align-items-center" id="heart">
+                                        <span><i class="ion-ios-heart"></i></span>
+                                    </button>
                             </div>
                         </div>
                     </div>
@@ -295,4 +299,5 @@
     </div>
 </section>
 <!--End Main-->
+
 

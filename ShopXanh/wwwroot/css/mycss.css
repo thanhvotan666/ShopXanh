@@ -1,0 +1,16 @@
+﻿#buynow,
+#heart {
+    border: none;
+    background-color: #82ae46;
+    border-radius: 20px;
+    color: white;
+    width: 40px
+}
+
+
+#addtocart:hover,
+#buynow:hover,
+#heart:hover {
+    background-color: lawngreen; /* Màu nền khi di chuột vào */
+    color: black; /* Màu chữ khi di chuột vào */
+}
