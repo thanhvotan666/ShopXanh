@@ -9,6 +9,7 @@ namespace ShopXanh.Models
         public int Id { get; set; }
         public decimal TotalPayment { get; set; }
         public string Address { get; set; }
+        public DateTime Date { get; set; }
 
         [ForeignKey("NguoiDung")]
         public int NguoiDungId { get; set; }

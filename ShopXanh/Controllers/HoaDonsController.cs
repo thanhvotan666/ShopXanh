@@ -57,7 +57,7 @@ namespace ShopXanh.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TotalPayment,Address,NguoiDungId")] HoaDon hoaDon)
+        public async Task<IActionResult> Create([Bind("Id,TotalPayment,Address,Date,NguoiDungId")] HoaDon hoaDon)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace ShopXanh.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TotalPayment,Address,NguoiDungId")] HoaDon hoaDon)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TotalPayment,Address,Date,NguoiDungId")] HoaDon hoaDon)
         {
             if (id != hoaDon.Id)
             {

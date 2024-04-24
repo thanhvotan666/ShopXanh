@@ -1,0 +1,56 @@
+﻿@model ShopXanh.Models.HoaDon
+@{
+}
+
+<form asp-action="ThanhToan" method="post" class="info">
+	<div class="row justify-content-end">
+		<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+			<div class="cart-total mb-3">
+				<h3>Mã giảm giá</h3>
+				<p>Nhập mãs giảm giá nếu bạn có</p>
+					<div class="form-group">
+						<label >Mã giảm giá</label>
+						<input type="text" class="form-control text-left px-3" placeholder="">
+					</div>
+			</div>
+			<p><button class="btn btn-primary py-3 px-4">Apply</button></p>
+		</div>
+		<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+			<div class="cart-total mb-3">
+				<h3>Địa chỉ giao hàng</h3>
+				<p>Nhập Địa chỉ của bạn</p>
+				<div class="form-group">
+					<label>Địa Chỉ</label>
+					<input name="Address" type="text" class="form-control text-left px-3" placeholder="***">
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+			<div class="cart-total mb-3">
+				<h3>Cart Totals</h3>
+				<p class="d-flex">
+					<span>Tổng phụ</span>
+					<span id="subtotal">0</span>
+					<span>đ</span>
+				</p>
+				<p class="d-flex">
+					<span>Vận chuyển</span>
+					<span id="delivery">0</span>
+					<span>đ</span>
+				</p>
+				<p class="d-flex">
+					<span>Giảm giá</span>
+					<span id="discount">0</span>
+					<span>đ</span>
+				</p>
+				<hr>
+				<p class="d-flex total-price">
+					<span>Tổng cộng</span>
+					<span id="total" name="TotalPayment">0</span>
+					<span>đ</span>
+				</p>
+			</div>
+			<input type="hidden" name="NguoiDungId" value="" />
+			<p><a asp-controller="Home" asp-action="ThanhToan" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+		</div>
+</form>

@@ -1,17 +1,11 @@
 ﻿@{
     ViewData["Title"] = "Cart";
 }
-<div class="hero-wrap hero-bread" style="background-image: url('images/bg_1.jpg');">
-	<div class="container">
-		<div class="row no-gutters slider-text align-items-center justify-content-center">
-			<div class="col-md-9 ftco-animate text-center">
-				<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Cart</span></p>
-				<h1 class="mb-0 bread">My Cart</h1>
-			</div>
-		</div>
-	</div>
+@model IEnumerable<ShopXanh.Models.SanPham>
+@await Component.InvokeAsync("Head", new { param = ViewData["Title"] })
+<div id="clickDelCart" style="display:none; position: fixed; top: 10%; left: 50%; transform: translate(-50%, -50%); background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; border-radius: 5px; z-index: 1000;">
+	Đã xóa sản phẩm
 </div>
-
 <section class="ftco-section ftco-cart">
 	<div class="container">
 		<div class="row">
@@ -20,139 +14,114 @@
 					<table class="table">
 						<thead class="thead-primary">
 							<tr class="text-center">
-								<th>&nbsp;</th>
+								
 								<th>&nbsp;</th>
 								<th>Product name</th>
 								<th>Price</th>
 								<th>Quantity</th>
 								<th>Total</th>
+								<th>&nbsp;</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="text-center">
-								<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+							@foreach(var item in Model)
+							{
+								<tr class="text-center">
+									
 
-								<td class="image-prod"><div class="img" style="background-image:url(images/product-3.jpg);"></div></td>
+									<td class="image-prod"><div class="img" style="background-image:url(@Url.Content($"~/{item.ImageUrl}"));"></div></td>
 
-								<td class="product-name">
-									<h3>Bell Pepper</h3>
-									<p>Far far away, behind the word mountains, far from the countries</p>
-								</td>
+									<td class="product-name">
+										<h3>@item.Name</h3>
+										<p>@item.Description</p>
+									</td>
 
-								<td class="price">$4.90</td>
+									<td class="price"><div id='price_@item.Id'>@item.Price</div> đ</td>
 
-								<td class="quantity">
-									<div class="input-group mb-3">
-										<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-									</div>
-								</td>
+									<td class="quantity">
+										<div class="input-group mb-3">
+											<input id="quantity_@item.Id" onchange="changeQuantity(@item.Id)" type="text" class="quantity form-control input-number" value="1" min="1" max="@item.Quantity">
+										</div>
+									</td>
 
-								<td class="total">$4.90</td>
-							</tr><!-- END TR-->
-
-							<tr class="text-center">
-								<td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-
-								<td class="image-prod"><div class="img" style="background-image:url(images/product-4.jpg);"></div></td>
-
-								<td class="product-name">
-									<h3>Bell Pepper</h3>
-									<p>Far far away, behind the word mountains, far from the countries</p>
-								</td>
-
-								<td class="price">$15.70</td>
-
-								<td class="quantity">
-									<div class="input-group mb-3">
-										<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-									</div>
-								</td>
-
-								<td class="total">$15.70</td>
-							</tr><!-- END TR-->
+									<td class="total"><div id ="productTotal_@item.Id"></div> đ</td>
+									<td class="product-remove">
+										<a asp-controller="Home" asp-action="Cart" asp-route-id="@item.Id">
+											<span class="ion-ios-close"></span>
+										</a>
+									</td>
+								</tr><!-- END TR-->
+							}	
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
+
+		<form asp-action="Cart" method="post" class="info">
 		<div class="row justify-content-end">
+				<p class="text-danger">
+					@if (ViewBag.Error != null)
+					{
+						@ViewBag.Error
+					}
+				</p>
 			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
 				<div class="cart-total mb-3">
-					<h3>Coupon Code</h3>
-					<p>Enter your coupon code if you have one</p>
-					<form action="#" class="info">
+					<h3>Mã giảm giá</h3>
+					<p>Nhập mã giảm giá nếu bạn có</p>
 						<div class="form-group">
-							<label for="">Coupon code</label>
-							<input type="text" class="form-control text-left px-3" placeholder="">
+							<label for="">Mã giảm giá</label>
+							<input type="text" class="form-control text-left px-3" placeholder="***">
 						</div>
-					</form>
 				</div>
-				<p><a href="checkout.html" class="btn btn-primary py-3 px-4">Apply Coupon</a></p>
+				<p><button class="btn btn-primary py-3 px-4">Apply</button></p>
 			</div>
 			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
 				<div class="cart-total mb-3">
-					<h3>Estimate shipping and tax</h3>
-					<p>Enter your destination to get a shipping estimate</p>
-					<form action="#" class="info">
+					<h3>Địa chỉ giao hàng</h3>
+						
+					<p>Nhập địa chỉ giao hàng</p>
+					
 						<div class="form-group">
-							<label for="">Country</label>
-							<input type="text" class="form-control text-left px-3" placeholder="">
+							<label	>Địa Chỉ</label>
+							<input name="Address" type="text" class="form-control text-left px-3" placeholder="***">
+							
 						</div>
-						<div class="form-group">
-							<label for="country">State/Province</label>
-							<input type="text" class="form-control text-left px-3" placeholder="">
-						</div>
-						<div class="form-group">
-							<label for="country">Zip/Postal Code</label>
-							<input type="text" class="form-control text-left px-3" placeholder="">
-						</div>
-					</form>
 				</div>
-				<p><a href="checkout.html" class="btn btn-primary py-3 px-4">Estimate</a></p>
 			</div>
 			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
 				<div class="cart-total mb-3">
 					<h3>Cart Totals</h3>
 					<p class="d-flex">
-						<span>Subtotal</span>
-						<span>$20.60</span>
+						<span>Tổng phụ</span>
+						<span id="subtotal">0</span>
+						<span>đ</span>
 					</p>
 					<p class="d-flex">
-						<span>Delivery</span>
-						<span>$0.00</span>
+						<span>Vận chuyển</span>
+						<span id="delivery">0</span>
+						<span>đ</span>
 					</p>
 					<p class="d-flex">
-						<span>Discount</span>
-						<span>$3.00</span>
+						<span>Giảm giá</span>
+						<span id="discount">0</span>
+						<span>đ</span>
 					</p>
 					<hr>
 					<p class="d-flex total-price">
-						<span>Total</span>
-						<span>$17.60</span>
+						<span>Tổng cộng</span>
+						<span id="total">0</span>
+						<input type="hidden" id="TotalPayment" name="TotalPayment" value="0">
+						<span>đ</span>
 					</p>
 				</div>
-				<p><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+					<p><input type="submit" value="Proceed to Checkout" class="btn btn-primary py-3 px-4"></p>
 			</div>
+			</form>
 		</div>
 	</div>
 </section>
 
-<section class="ftco-section ftco-no-pt ftco-no-pb py-5 bg-light">
-	<div class="container py-4">
-		<div class="row d-flex justify-content-center py-5">
-			<div class="col-md-6">
-				<h2 style="font-size: 22px;" class="mb-0">Subcribe to our Newsletter</h2>
-				<span>Get e-mail updates about our latest shops and special offers</span>
-			</div>
-			<div class="col-md-6 d-flex align-items-center">
-				<form action="#" class="subscribe-form">
-					<div class="form-group d-flex">
-						<input type="text" class="form-control" placeholder="Enter email address">
-						<input type="submit" value="Subscribe" class="submit px-3">
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</section>
+<script src="~/js/cart.js"></script>
 
