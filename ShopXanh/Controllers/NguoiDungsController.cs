@@ -167,18 +167,22 @@ namespace ShopXanh.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(NguoiDung model)
+        public async Task<IActionResult> Login(NguoiDung model)
         {
-            if (ModelState.IsValid)
+			if (ModelState.IsValid)
             {
-                var nguoiDung = _context.NguoiDung.FirstOrDefaultAsync(e=>(e.Email == model.Email&&e.Password== model.Password));
-                if (nguoiDung.Result != null)
-                {
-                    model.Id = nguoiDung.Result.Id;
-                    model.Name = nguoiDung.Result.Name;
+				
+				var nguoiDung = await _context.NguoiDung.FirstOrDefaultAsync(e=>(e.Email == model.Email&&e.Password== model.Password));
+                if (nguoiDung != null)
+				{
+                    //Kiểm tra có phải admin không
+					model.Id = nguoiDung.Id;
+                    model.Name = nguoiDung.Name;
+                    
+                    
                     HttpContext.Session.SetInt32("UserId", model.Id);
                     HttpContext.Session.SetString("UserName", model.Name);
-                    // Đăng nhập thành công, chuyển hướng đến trang chính
+                    // Đăng nhập thành công user, chuyển hướng đến trang chính
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -280,5 +284,94 @@ namespace ShopXanh.Controllers
             }
             return View(nguoiDung);
         }
-    }
+
+        [HttpGet]
+        public IActionResult HoaDon()
+        {
+            if (!HttpContext.Session.Keys.Contains("UserId"))
+            {
+                return NotFound();
+            }
+            var nguoiDungId = (int)HttpContext.Session.GetInt32("UserId");
+            if (!NguoiDungExists(nguoiDungId))
+            {
+                return NotFound();
+            }
+            var hoaDon = _context.HoaDon
+                .Include(h => h.NguoiDung)
+                .Where(h => h.NguoiDungId == nguoiDungId)
+                .ToList();
+            return View(hoaDon);
+        }
+        [HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> HoaDon(int? id)
+		{
+			if (!HttpContext.Session.Keys.Contains("UserId"))
+			{
+				return NotFound();
+			}
+			var nguoiDungId = (int)HttpContext.Session.GetInt32("UserId");
+			if (!NguoiDungExists(nguoiDungId))
+			{
+				return NotFound();
+			}
+			if (id != null)
+			{
+				var hoaDon = await _context.HoaDon.FindAsync(id);
+				var chiTiets = await _context.ChiTietHoaDon
+				.Include(c => c.hoaDon)
+				.Include(c => c.sanPham)
+				.Where(m => m.ID == id)
+                .ToListAsync();
+				if (hoaDon != null)
+				{
+                    foreach(var chiTietHoaDon in chiTiets) 
+                    {
+                        _context.ChiTietHoaDon.Remove(chiTietHoaDon);
+                    }
+					_context.HoaDon.Remove(hoaDon);
+				}
+
+				await _context.SaveChangesAsync();
+			}
+			return RedirectToAction(nameof(HoaDon));
+		}
+        [HttpGet]
+        public IActionResult ChiTiet(int? id)
+        {
+            List<Dictionary<string,string>> list = new List<Dictionary<string,string>>();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var chiTiets = _context.ChiTietHoaDon
+                .Include(c => c.hoaDon)
+                .Include(c => c.sanPham)
+                .Where(c => c.HoaDonID == id);
+            if(chiTiets == null)
+            {
+				return NotFound();
+			}
+            foreach(var item  in chiTiets) 
+            {
+				var SanPham = _context.SanPham
+				.Include(s => s.loaiSanPham)
+				.FirstOrDefault(s => s.Id == item.SanPhamId);
+				if (SanPham == null)
+				{
+                    continue;
+                }
+
+                Dictionary<string,string> dictSanPham = new Dictionary<string,string>();
+                dictSanPham.Add("Name", SanPham.Name);
+                dictSanPham.Add("ImageUrl", SanPham.ImageUrl);
+                dictSanPham.Add("Quantity", item.Quantity.ToString());
+				dictSanPham.Add("Total", item.Total.ToString());
+                list.Add(dictSanPham);
+			}
+			
+			return View(list);
+        }
+	}
 }

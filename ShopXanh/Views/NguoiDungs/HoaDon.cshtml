@@ -1,0 +1,69 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<ShopXanh.Models.HoaDon>
+
+<div class="container">
+	<div class="row justify-content-center mt-5">
+		<div class="col-md-6">
+			<div class="row justify-content-center">
+				<div class="col-md-10 mb-5 text-center">
+					<ul class="product-category">
+						<li><a asp-action="ThongTin">Thông Tin</a></li>
+						<li><a asp-action="HoaDon" class="active">Hóa Đơn</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<section class="ftco-section ftco-cart">
+	<div class="container">
+			
+		<div class="row">
+			<div class="col-md-12 ftco-animate">
+				<div class="cart-list">
+					<table class="table">
+						<thead class="thead-primary">
+							<tr class="text-center">
+								<th>Id</th>
+								<th>Ngày mua</th>
+								<th>Tổng giá</th>
+								<th>Địa chỉ giao</th>
+								<th>&nbsp;</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var item in Model)
+							{
+								<tr class="text-center">
+
+									<td class="image-prod"><span class="icon-apps"><a asp-action="ChiTiet" asp-route-id="@item.Id"><h4>@item.Id</h4></a></span></td>
+									
+									<td class="product-name"><h3>@item.Date</h3></td>
+
+									<td class="price">@item.TotalPayment đ</td>
+
+                                    <td class="quantity"><h4>@item.Address</h4></td>
+
+									<td class="product-remove">
+										<form asp-action="HoaDon" method="post">
+                                            <input type="hidden" name="id" value="@item.Id" />
+											<input type="submit" class="ion-ios-close text-danger" value="Delete" />
+										</form>
+										</td>
+								</tr>
+
+								<!-- END TR-->
+							}
+
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

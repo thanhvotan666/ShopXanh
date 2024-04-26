@@ -1,0 +1,65 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<Dictionary<string,string>>
+<div class="container">
+	<div class="row justify-content-center mt-5">
+		<div class="col-md-6">
+			<div class="row justify-content-center">
+				<div class="col-md-10 mb-5 text-center">
+					<ul class="product-category">
+						<li><a asp-action="ThongTin">Thông Tin</a></li>
+						<li><a asp-action="HoaDon" class="active">Hóa Đơn</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<section class="ftco-section ftco-cart">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 ftco-animate">
+				<div class="product-category">
+					<a asp-action="HoaDon"><h3 class="icon-backward">Back</h3></a>
+				</div>
+				
+				<div class="cart-list">
+					<table class="table">
+						<thead class="thead-primary">
+							<tr class="text-center">
+
+								<th>&nbsp;</th>
+								<th>Tên</th>
+								<th>Số lượng</th>
+								<th>Tổng giá</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var item in Model)
+							{
+								<tr class="text-center">
+
+									<td class="image-prod"><div class="img" style="background-image:url(@Url.Content($"~/{item["ImageUrl"]}"));"></div></td>
+
+									<td class="product-name"><h3>@item["Name"]</h3></td>
+										
+									<td class="quantity">@item["Quantity"]</td>
+
+									<td class="total">@item["Total"] đ</td>
+
+								</tr>
+
+								<!-- END TR-->
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</section>
+

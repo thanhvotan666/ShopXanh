@@ -27,9 +27,9 @@
                             <a id="addtocart" asp-controller="Sanphams" asp-action="Details" asp-route-id="@item.Id" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                                 <span><i class="ion-ios-menu"></i></span>
                             </a>
-                            <a id="buynow" href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                            <button onclick="cookieCartAdd('@item.Id')" class="buy-now d-flex justify-content-center align-items-center mx-1" id="buynow">
                                 <span><i class="ion-ios-cart"></i></span>
-                            </a>
+                            </button>
                             <button id="heart" type="button" onclick="cookieYeuThichAdd('@item.Id')" class="heart d-flex justify-content-center align-items-center">
                                 <span><i class="ion-ios-heart"></i></span>
                             </button>
