@@ -1,7 +1,8 @@
-﻿@model IEnumerable<ShopXanh.Models.Cart>
+﻿@model IEnumerable<ShopXanh.Models.LoaiSanPham>
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "_LayoutAdmin";
 }
 
 <h1>Index</h1>
@@ -13,13 +14,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.sanPham)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.nguoiDung)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th></th>
         </tr>
@@ -28,13 +23,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.sanPham.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nguoiDung.Id)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -8,25 +8,25 @@ using Microsoft.EntityFrameworkCore;
 using ShopXanh.Data;
 using ShopXanh.Models;
 
-namespace ShopXanh.Controllers
+namespace ShopXanh.Areas.Admin.Controllers
 {
-    public class CartsController : Controller
+    [Area("Admin")]
+    public class LoaiSanPhamsController : Controller
     {
         private readonly ShopXanhContext _context;
 
-        public CartsController(ShopXanhContext context)
+        public LoaiSanPhamsController(ShopXanhContext context)
         {
             _context = context;
         }
 
-        // GET: Carts
+        // GET: Admin/LoaiSanPhams
         public async Task<IActionResult> Index()
         {
-            var shopXanhContext = _context.Cart.Include(c => c.nguoiDung).Include(c => c.sanPham);
-            return View(await shopXanhContext.ToListAsync());
+            return View(await _context.LoaiSanPham.ToListAsync());
         }
 
-        // GET: Carts/Details/5
+        // GET: Admin/LoaiSanPhams/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,45 +34,39 @@ namespace ShopXanh.Controllers
                 return NotFound();
             }
 
-            var cart = await _context.Cart
-                .Include(c => c.nguoiDung)
-                .Include(c => c.sanPham)
+            var loaiSanPham = await _context.LoaiSanPham
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (cart == null)
+            if (loaiSanPham == null)
             {
                 return NotFound();
             }
 
-            return View(cart);
+            return View(loaiSanPham);
         }
 
-        // GET: Carts/Create
+        // GET: Admin/LoaiSanPhams/Create
         public IActionResult Create()
         {
-            ViewData["NguoiDungId"] = new SelectList(_context.NguoiDung, "Id", "Id");
-            ViewData["SanPhamId"] = new SelectList(_context.SanPham, "Id", "Id");
             return View();
         }
 
-        // POST: Carts/Create
+        // POST: Admin/LoaiSanPhams/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Quantity,SanPhamId,NguoiDungId")] Cart cart)
+        public async Task<IActionResult> Create([Bind("Id,Name")] LoaiSanPham loaiSanPham)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cart);
+                _context.Add(loaiSanPham);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NguoiDungId"] = new SelectList(_context.NguoiDung, "Id", "Id", cart.NguoiDungId);
-            ViewData["SanPhamId"] = new SelectList(_context.SanPham, "Id", "Id", cart.SanPhamId);
-            return View(cart);
+            return View(loaiSanPham);
         }
 
-        // GET: Carts/Edit/5
+        // GET: Admin/LoaiSanPhams/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,24 +74,22 @@ namespace ShopXanh.Controllers
                 return NotFound();
             }
 
-            var cart = await _context.Cart.FindAsync(id);
-            if (cart == null)
+            var loaiSanPham = await _context.LoaiSanPham.FindAsync(id);
+            if (loaiSanPham == null)
             {
                 return NotFound();
             }
-            ViewData["NguoiDungId"] = new SelectList(_context.NguoiDung, "Id", "Id", cart.NguoiDungId);
-            ViewData["SanPhamId"] = new SelectList(_context.SanPham, "Id", "Id", cart.SanPhamId);
-            return View(cart);
+            return View(loaiSanPham);
         }
 
-        // POST: Carts/Edit/5
+        // POST: Admin/LoaiSanPhams/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Quantity,SanPhamId,NguoiDungId")] Cart cart)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] LoaiSanPham loaiSanPham)
         {
-            if (id != cart.Id)
+            if (id != loaiSanPham.Id)
             {
                 return NotFound();
             }
@@ -106,12 +98,12 @@ namespace ShopXanh.Controllers
             {
                 try
                 {
-                    _context.Update(cart);
+                    _context.Update(loaiSanPham);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CartExists(cart.Id))
+                    if (!LoaiSanPhamExists(loaiSanPham.Id))
                     {
                         return NotFound();
                     }
@@ -122,12 +114,10 @@ namespace ShopXanh.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NguoiDungId"] = new SelectList(_context.NguoiDung, "Id", "Id", cart.NguoiDungId);
-            ViewData["SanPhamId"] = new SelectList(_context.SanPham, "Id", "Id", cart.SanPhamId);
-            return View(cart);
+            return View(loaiSanPham);
         }
 
-        // GET: Carts/Delete/5
+        // GET: Admin/LoaiSanPhams/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,36 +125,34 @@ namespace ShopXanh.Controllers
                 return NotFound();
             }
 
-            var cart = await _context.Cart
-                .Include(c => c.nguoiDung)
-                .Include(c => c.sanPham)
+            var loaiSanPham = await _context.LoaiSanPham
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (cart == null)
+            if (loaiSanPham == null)
             {
                 return NotFound();
             }
 
-            return View(cart);
+            return View(loaiSanPham);
         }
 
-        // POST: Carts/Delete/5
+        // POST: Admin/LoaiSanPhams/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cart = await _context.Cart.FindAsync(id);
-            if (cart != null)
+            var loaiSanPham = await _context.LoaiSanPham.FindAsync(id);
+            if (loaiSanPham != null)
             {
-                _context.Cart.Remove(cart);
+                _context.LoaiSanPham.Remove(loaiSanPham);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CartExists(int id)
+        private bool LoaiSanPhamExists(int id)
         {
-            return _context.Cart.Any(e => e.Id == id);
+            return _context.LoaiSanPham.Any(e => e.Id == id);
         }
     }
 }
