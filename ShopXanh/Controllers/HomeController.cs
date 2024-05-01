@@ -151,7 +151,7 @@ namespace ShopXanh.Controllers
             }
             else
             {
-				ViewBag.Error = "Vui lòng nhập đầy đủ thông tin";
+				ViewBag.Error = "Vui lòng nhập địa chỉ giao hàng";
 			}
 
 			List<int> cookies = new List<int>();

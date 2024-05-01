@@ -2,7 +2,7 @@
 
 var cookies = {}; // Tạo một đối tượng để lưu trữ các cookie
 
-window.onload = function () {
+window.addEventListener('load', function () {
     var subTotal = 0;
     var cookieString = document.cookie; // Lấy chuỗi cookie từ document.cookie
 
@@ -29,7 +29,7 @@ window.onload = function () {
         document.getElementById("total").innerText = numTotal.toString();
         document.getElementById("TotalPayment").value = numTotal;
     }
-};
+});
 function changeTotal(id) {
     var numPrice = parseFloat(document.getElementById("price_" + id).textContent);
     var numQuantity = parseInt(document.getElementById("quantity_" + id).value);

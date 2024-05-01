@@ -13,6 +13,7 @@ function cookieCartAdd(id) {
     var cname = "Cart" + id;
     setCookie(cname, 1, 7);
     showNotification("clickCookieCart");
+    LoadCart();
 }
 function showNotification(tagId) {
     var notification = document.getElementById(tagId);

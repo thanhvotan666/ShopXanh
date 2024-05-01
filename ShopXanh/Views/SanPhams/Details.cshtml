@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Details";
 }
-
+<div id="clickCookieCart" style="display:none; position: fixed; top: 10%; left: 50%; transform: translate(-50%, -50%); background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; border-radius: 5px; z-index: 1000;">
+    Đã thêm giỏ hàng
+</div>
 <section class="ftco-section">
     <div class="container">
         <div class="row">
@@ -65,7 +67,9 @@
                         <p style="color: #000;">@Html.DisplayFor(model => model.Quantity) kg available</p>
                     </div>
                 </div>
-                <p><a @* href="cart.html" *@ class="btn btn-black py-3 px-5">Add to Cart</a></p>
+                <p>
+                    <input type="button" onclick="cookieCartAdd('@Html.DisplayFor(model=>model.Id)')" class="btn btn-primary py-3 px-4" value="Add to Cart">
+                </p>
             </div>
         </div>
     </div>
